@@ -1,34 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_beautiful_popup/main.dart';
+import 'package:flutter_beautiful_popup/flutter_beautiful_popup.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/github-gist.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'MyTemplate.dart';
+import 'my_template.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter_beautiful_popup',
-      theme: ThemeData(primaryColor: Colors.blue),
-      home: MyHomePage(title: 'Flutter_Beautiful_Popup'),
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Flutter_Beautiful_Popup'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
+
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -36,21 +66,21 @@ class _MyHomePageState extends State<MyHomePage> {
   initState() {
     super.initState();
     final templates = [
-      TemplateGift,
-      TemplateCamera,
-      TemplateNotification,
-      TemplateGeolocation,
-      TemplateSuccess,
-      TemplateFail,
-      // TemplateOrangeRocket,
-      TemplateGreenRocket,
-      TemplateOrangeRocket2,
-      TemplateCoin,
-      TemplateBlueRocket,
-      TemplateThumb,
-      TemplateAuthentication,
-      TemplateTerm,
-      TemplateRedPacket,
+      TemplateType.gift,
+      TemplateType.camera,
+      TemplateType.notification,
+      TemplateType.geolocation,
+      TemplateType.success,
+      TemplateType.fail,
+      // TemplateType.orangeRocket,
+      TemplateType.greenRocket,
+      TemplateType.orangeRocket2,
+      TemplateType.coin,
+      TemplateType.blueRocket,
+      TemplateType.thumb,
+      TemplateType.authentication,
+      TemplateType.term,
+      TemplateType.redPacket,
     ];
 
     demos = templates.map((template) {
@@ -66,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
   BeautifulPopup? activeDemo;
 
   Widget get showcases {
-    final popup = BeautifulPopup.customize(
+    final popup = BeautifulPopup.withBuilder(
       context: context,
       build: (options) => MyTemplate(options),
     );
@@ -76,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.fromLTRB(20, 20, 10, 10),
-          decoration: BoxDecoration(
+          margin: const EdgeInsets.fromLTRB(20, 20, 10, 10),
+          decoration: const BoxDecoration(
             border: Border(
               top: BorderSide(
                 color: Colors.white,
@@ -90,27 +120,27 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Text(
                 'All Templates:',
-                style: Theme.of(context).textTheme.headline4?.merge(
-                      TextStyle(
+                style: Theme.of(context).textTheme.headlineMedium?.merge(
+                      const TextStyle(
                         backgroundColor: Colors.transparent,
                       ),
                     ),
               ),
-              Spacer(),
-              FlatButton(
-                child: Text('Customize'),
+              const Spacer(),
+              TextButton(
+                child: const Text('Customize'),
                 onPressed: () {
                   popup.show(
                     title: 'Example',
                     content: Container(
                       color: Colors.black12,
-                      child: Text(
+                      child: const Text(
                           'This popup shows you how to customize your own BeautifulPopupTemplate.'),
                     ),
                     actions: [
                       popup.button(
                         label: 'Code',
-                        labelStyle: TextStyle(),
+                        labelStyle: const TextStyle(),
                         onPressed: () async {
                           await _launchURL(
                             'https://github.com/jaweii/Flutter_beautiful_popup/blob/master/example/lib/MyTemplate.dart',
@@ -120,13 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   );
                 },
-              )
+              ),
             ],
           ),
         ),
         Expanded(
           child: SingleChildScrollView(
-            padding: EdgeInsets.fromLTRB(20, 20, 0, 20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
             child: Wrap(
               alignment: WrapAlignment.start,
               spacing: 20,
@@ -136,8 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 return InkWell(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    constraints: BoxConstraints(minWidth: 160),
-                    padding: EdgeInsets.all(10),
+                    constraints: const BoxConstraints(minWidth: 160),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: demo.primaryColor?.withOpacity(0.25),
                       borderRadius: BorderRadius.circular(10),
@@ -153,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           fit: BoxFit.fitWidth,
                           alignment: Alignment.topCenter,
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           'Demo-${i + 1}\n${demo.instance.runtimeType}',
                           textAlign: TextAlign.center,
@@ -174,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget get body {
-    final exampleCode = ''' 
+    final exampleCode = '''
 final popup = BeautifulPopup(
   context: context,
   template: ${activeDemo?.instance.runtimeType ?? '// Select a template in right'},
@@ -207,11 +237,11 @@ popup.show(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(20, 20, 10, 10),
+                    margin: const EdgeInsets.fromLTRB(20, 20, 10, 10),
                     child: Text(
                       '# Usage',
-                      style: Theme.of(context).textTheme.headline4?.merge(
-                            TextStyle(
+                      style: Theme.of(context).textTheme.headlineMedium?.merge(
+                            const TextStyle(
                               color: Colors.black54,
                               backgroundColor: Colors.transparent,
                             ),
@@ -225,7 +255,7 @@ popup.show(
                         exampleCode,
                         language: 'dart',
                         theme: githubGistTheme,
-                        padding: EdgeInsets.all(30),
+                        padding: const EdgeInsets.all(30),
                       ),
                     ),
                   ),
@@ -249,15 +279,20 @@ popup.show(
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: TextStyle(color: Colors.white),
-        ),
         elevation: 2,
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
         backgroundColor:
             activeDemo?.primaryColor ?? Theme.of(context).primaryColor,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(
+          widget.title,
+          style: const TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Image.asset(
               'images/github.png',
               width: 32,
@@ -286,14 +321,14 @@ popup.show(
         title: const Text('Pick a color!'),
         content: SingleChildScrollView(
           child: ColorPicker(
-            pickerColor: color == null ? Color(0xFF000000) : color!,
+            pickerColor: color == null ? const Color(0xFF000000) : color!,
             onColorChanged: (c) => color = c,
-            showLabel: true,
+            // showLabel: true,
             pickerAreaHeightPercent: 0.8,
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: const Text('Got it'),
             onPressed: () async {
               callback?.call(color);
@@ -324,8 +359,11 @@ popup.show(
             changeColor(demo, (color) async {
               demo = await BeautifulPopup(
                 context: context,
-                template: demo.template,
+                template: demo.template!,
               ).recolor(color!);
+              // NOTE: use_build_context_synchronously
+              if (!context.mounted) return;
+              // ignore: use_build_context_synchronously
               Navigator.of(context).popUntil((route) {
                 if (route.settings.name == '/') return true;
                 return false;
@@ -340,7 +378,8 @@ popup.show(
           onPressed: () {
             Navigator.of(context).pop();
             if (title is Widget) {
-              return openDemo(demo: demo);
+              openDemo(demo: demo);
+              return;
             }
             getTitle() {
               return Opacity(
@@ -360,7 +399,7 @@ popup.show(
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                       child: Icon(
                         Icons.star,
                         color: demo.primaryColor?.withOpacity(0.75),
@@ -382,12 +421,12 @@ popup.show(
                     child: Column(
                       children: <Widget>[
                         CupertinoButton(
-                          child: Text('Remove all buttons'),
+                          child: const Text('Remove all buttons'),
                           onPressed: () {
                             Navigator.of(context).pop();
                             demo = BeautifulPopup(
                               context: context,
-                              template: demo.template,
+                              template: demo.template!,
                             );
                             demo.show(
                               title: getTitle(),
@@ -397,12 +436,12 @@ popup.show(
                           },
                         ),
                         CupertinoButton(
-                          child: Text('Keep one button'),
+                          child: const Text('Keep one button'),
                           onPressed: () {
                             Navigator.of(context).pop();
                             demo = BeautifulPopup(
                               context: context,
-                              template: demo.template,
+                              template: demo.template!,
                             );
                             demo.show(
                               title: getTitle(),
@@ -419,12 +458,12 @@ popup.show(
                           },
                         ),
                         CupertinoButton(
-                          child: Text('Remove Close button'),
+                          child: const Text('Remove Close button'),
                           onPressed: () {
                             Navigator.of(context).pop();
                             demo = BeautifulPopup(
                               context: context,
-                              template: demo.template,
+                              template: demo.template!,
                             );
                             demo.show(
                               title: getTitle(),
@@ -443,12 +482,12 @@ popup.show(
                           },
                         ),
                         CupertinoButton(
-                          child: Text('Change button direction'),
+                          child: const Text('Change button direction'),
                           onPressed: () {
                             Navigator.of(context).pop();
                             demo = BeautifulPopup(
                               context: context,
-                              template: demo.template,
+                              template: demo.template!,
                             );
                             demo.show(
                               title: getTitle(),
@@ -456,19 +495,42 @@ popup.show(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 direction: Axis.vertical,
                                 children: <Widget>[
-                                  Text('1. blabla... \n2. blabla...'),
-                                  Spacer(),
+                                  const Text('1. blabla... \n2. blabla...'),
+                                  const Spacer(),
                                   demo.button(
                                     label: 'Accpet',
                                     onPressed: () {},
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    child: FlatButton(
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      child: Text('Close'),
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                        // primary: Colors.red, // foreground
+                                        foregroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                                Colors.red),
+                                        overlayColor:
+                                            WidgetStateProperty.resolveWith(
+                                                (Set<WidgetState> states) {
+                                          if (states
+                                              .contains(WidgetState.focused)) {
+                                            return Colors.red;
+                                          }
+                                          // hoverColor
+                                          if (states
+                                              .contains(WidgetState.hovered)) {
+                                            return Colors.transparent;
+                                          }
+                                          // highlightColor
+                                          if (states
+                                              .contains(WidgetState.pressed)) {
+                                            return Colors.transparent;
+                                          }
+                                          return null; // Defer to the widget's default.
+                                        }),
+                                      ),
                                       onPressed: Navigator.of(context).pop,
+                                      child: const Text('Close'),
                                     ),
                                   ),
                                 ],
@@ -496,7 +558,10 @@ popup.show(
     );
   }
 
-  Future<void> _launchURL(String _url) async {
-    await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+  Future<void> _launchURL(String url) async {
+    Uri urlParsed = Uri.parse(url);
+    await canLaunchUrl(urlParsed)
+        ? await launchUrl(urlParsed)
+        : throw 'Could not launch $urlParsed';
   }
 }
