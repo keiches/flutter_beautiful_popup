@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/camera.png)
 class TemplateCamera extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateCamera(this.options) : super(options);
+  TemplateCamera(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/camera.png';
+  String get illustrationPath => 'camera.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xff72b2e0);
+  Color get primaryColor => options.primaryColor ?? const Color(0xff72b2e0);
   @override
   final maxWidth = 400;
   @override

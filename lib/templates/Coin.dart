@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/coin.png)
 class TemplateCoin extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateCoin(this.options) : super(options);
+  TemplateCoin(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/coin.png';
+  String get illustrationPath => 'coin.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xffff8269);
+  Color get primaryColor => options.primaryColor ?? const Color(0xffff8269);
   @override
   final maxWidth = 400;
   @override

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'Common.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/term.png)
 class TemplateTerm extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateTerm(this.options) : super(options);
+  TemplateTerm(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/term.png';
+  String get illustrationPath => 'term.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xfffb8c3c);
+  Color get primaryColor => options.primaryColor ?? const Color(0xfffb8c3c);
   @override
   final maxWidth = 400;
   @override

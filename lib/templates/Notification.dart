@@ -1,10 +1,9 @@
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/notification.png)
 class TemplateNotification extends TemplateCamera {
-  final BeautifulPopup options;
-  TemplateNotification(this.options) : super(options);
+  TemplateNotification(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/notification.png';
+  String get illustrationPath => 'notification.png';
 }

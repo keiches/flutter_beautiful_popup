@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'Common.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/red_packet.png)
 class TemplateRedPacket extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateRedPacket(this.options) : super(options);
+  TemplateRedPacket(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/red_packet.png';
+  String get illustrationPath => 'red_packet.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xfffa1a2c);
+  Color get primaryColor => options.primaryColor ?? const Color(0xfffa1a2c);
   @override
   final maxWidth = 400;
   @override
@@ -39,7 +38,7 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
             options.title,
             maxLines: 1,
             style: TextStyle(
-              fontSize: Theme.of(options.context).textTheme.headline6?.fontSize,
+              fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -49,12 +48,13 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
     );
   }
 
+  @override
   Widget get content {
     return options.content is String
         ? AutoSizeText(
             options.content,
             minFontSize:
-                Theme.of(options.context).textTheme.headline6?.fontSize ?? 12,
+                Theme.of(options.context).textTheme.titleLarge?.fontSize ?? 12,
             style: TextStyle(
               color: Colors.white.withOpacity(0.95),
             ),
@@ -80,18 +80,32 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
           (outline || flat) ? primaryColor : Colors.white.withOpacity(0.95);
       final decoration = BoxDecoration(
         gradient: (outline || flat) ? null : gradient,
-        borderRadius: BorderRadius.all(Radius.circular(80.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(80.0)),
         border: Border.all(
           color: outline ? primaryColor : Colors.transparent,
           width: (outline && !flat) ? 1 : 0,
         ),
       );
       final minHeight = 40.0 - (outline ? 2 : 0);
-      return RaisedButton(
-        color: Colors.transparent,
-        elevation: elevation,
-        highlightElevation: 0,
-        splashColor: Colors.transparent,
+      return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.transparent,
+          elevation: WidgetStateProperty.resolveWith(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) {
+                  // highlightElevation
+                  return 0.0;
+                }
+                return elevation;
+              }),
+          // splashColor
+          overlayColor: WidgetStateColor.transparent,
+          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
+          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          )),
+        ),
+        onPressed: onPressed,
         child: Ink(
           decoration: decoration,
           child: Container(
@@ -103,17 +117,13 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.95),
+                // color: Colors.white.withOpacity(0.95),
+                color: labelColor,
                 fontWeight: FontWeight.bold,
               ).merge(labelStyle),
             ),
           ),
         ),
-        padding: EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        onPressed: onPressed,
       );
     };
   }

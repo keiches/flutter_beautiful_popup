@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/rocekt_orange_2.png)
 class TemplateOrangeRocket2 extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateOrangeRocket2(this.options) : super(options);
+  TemplateOrangeRocket2(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/rocket_orange_2.png';
+  String get illustrationPath => 'rocket_orange_2.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xffff902b);
+  Color get primaryColor => options.primaryColor ?? const Color(0xffff902b);
   @override
   final maxWidth = 350;
   @override

@@ -1,27 +1,27 @@
-# flutter_beautiful_popup
+# flutter_beautiful_popup [中文](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README_CN.md)
 
-beautiful_popup, 承包你的应用弹窗。[Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/)
+A flutter package to help you beautify your app popup, can be used in all platform.[Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
 
-## 效果图:
+## Preview:
 
 <img src="./img/show.gif" style="max-height: 600px;">
 
-## 使用
+## Getting Started
 
-添加依赖项到 `pubspec.yaml`:
+Add dependency to you `pubspec.yaml`:
 
 ```
 dependencies:
     flutter_beautiful_popup: ^1.7.0
 ```
 
-引入依赖项:
+Import the dependency:
 
 ```
 import 'package:flutter_beautiful_popup/main.dart';
 ```
 
-然后你就可以用指定的模板，显示一个漂亮的弹窗:
+And then you can display a popup with certain template like this:
 
 ```
 final popup = BeautifulPopup(
@@ -36,22 +36,24 @@ popup.show(
       label: 'Close',
       onPressed: Navigator.of(context).pop,
     ),
-  ]
+  ],
+  // bool barrierDismissible = false,
+  // Widget close,
 );
 ```
 
-插件有给插图重新上色的功能，只需要调用`recolor`方法就可以了。但是这个方法需要花一点时间(通常2秒左右)去计算和偏移颜色通道。
+If you wan to `recolor` the illustration of the template, you can call the `recolor` method, but this function takes a little time to caculate/offset the color cahnnel of the illustration:
 
 ```
 final newColor = Colors.red.withOpacity(0.5);
 await popup.recolor(newColor);
 ```
 
-所有的可用模板，轻参考[Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
+All available templates you can find in [Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
 
-## 定制你自己的模板
+## Customize your own BeautifulPopupTemplate
 
-你可以通过继承 `BeautifulPopupTemplate` 类来定制你自己的模板:
+You can extend `BeautifulPopupTemplate` to customize your own template like this:
 
 ```
 import 'package:flutter/material.dart';
@@ -101,7 +103,7 @@ class MyTemplate extends BeautifulPopupTemplate {
 }
 ```
 
-用你自己的模板显示弹窗:
+To display a popup with your own template:
 
 ```
 final popup = BeautifulPopup.customize(
@@ -128,9 +130,8 @@ popup.show(
 );
 ```
 
-## 贡献
+## Contributor
 
-## 协议
-
-[MIT](http://opensource.org/licenses/MIT)
-
+<a href="https://github.com/jaweii/Flutter_beautiful_popup/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jaweii/Flutter_beautiful_popup" />
+</a>

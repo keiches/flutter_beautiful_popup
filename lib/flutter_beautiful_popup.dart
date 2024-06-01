@@ -40,47 +40,66 @@ export 'templates/Authentication.dart';
 export 'templates/Term.dart';
 export 'templates/RedPacket.dart';
 
+// Predefined template types
+enum TemplateType {
+  orangeRocket,
+  greenRocket,
+  orangeRocket2,
+  coin,
+  blueRocket,
+  thumb,
+  gift,
+  camera,
+  notification,
+  geolocation,
+  success,
+  fail,
+  authentication,
+  term,
+  redPacket,
+}
+
 class BeautifulPopup {
-  BuildContext _context;
+  final BuildContext _context;
   BuildContext get context => _context;
 
-  Type? _template;
-  Type? get template => _template;
+  final TemplateType? _template;
+  TemplateType? get template => _template;
 
   BeautifulPopupTemplate Function(BeautifulPopup options)? _build;
   BeautifulPopupTemplate get instance {
     final build = _build;
     if (build != null) return build(this);
-    switch (template) {
-      case TemplateOrangeRocket:
+    switch (_template) {
+      case TemplateType.orangeRocket:
         return TemplateOrangeRocket(this);
-      case TemplateGreenRocket:
+      case TemplateType.greenRocket:
         return TemplateGreenRocket(this);
-      case TemplateOrangeRocket2:
+      case TemplateType.orangeRocket2:
         return TemplateOrangeRocket2(this);
-      case TemplateCoin:
+      case TemplateType.coin:
         return TemplateCoin(this);
-      case TemplateBlueRocket:
+      case TemplateType.blueRocket:
         return TemplateBlueRocket(this);
-      case TemplateThumb:
+      case TemplateType.thumb:
         return TemplateThumb(this);
-      case TemplateGift:
+      case TemplateType.gift:
         return TemplateGift(this);
-      case TemplateCamera:
+    case TemplateType.camera:
         return TemplateCamera(this);
-      case TemplateNotification:
-        return TemplateNotification(this);
-      case TemplateGeolocation:
-        return TemplateGeolocation(this);
-      case TemplateSuccess:
+    case TemplateType.success:
         return TemplateSuccess(this);
-      case TemplateFail:
-        return TemplateFail(this);
-      case TemplateAuthentication:
+      case TemplateType.authentication:
         return TemplateAuthentication(this);
-      case TemplateTerm:
+      case TemplateType.term:
         return TemplateTerm(this);
-      case TemplateRedPacket:
+    case TemplateType.notification:
+        return TemplateNotification(this);
+      case TemplateType.geolocation:
+        return TemplateGeolocation(this);
+      case TemplateType.fail:
+        return TemplateFail(this);
+      case TemplateType.redPacket:
       default:
         return TemplateRedPacket(this);
     }
@@ -99,32 +118,29 @@ class BeautifulPopup {
 
   BeautifulPopup({
     required BuildContext context,
-    required Type? template,
-  })   : _context = context,
+    required TemplateType template,
+  }) : _context = context,
         _template = template {
     primaryColor = instance.primaryColor; // Get the default primary color.
   }
 
-  static BeautifulPopup customize({
+  BeautifulPopup.withBuilder({
     required BuildContext context,
     required BeautifulPopupTemplate Function(BeautifulPopup options) build,
-  }) {
-    final popup = BeautifulPopup(
-      context: context,
-      template: null,
-    );
-    popup._build = build;
-    return popup;
+  }) : _context = context,
+        _template = null,
+        _build = build {
+    primaryColor = instance.primaryColor; // Get the default primary color.
   }
 
   /// Recolor the BeautifulPopup.
   /// This method is  kind of slow.R
   Future<BeautifulPopup> recolor(Color color) async {
-    this.primaryColor = color;
+    primaryColor = color;
     final illustrationData = await rootBundle.load(instance.illustrationKey);
     final buffer = illustrationData.buffer.asUint8List();
     img.Image? asset;
-    asset = img.readPng(buffer);
+    asset = img.decodePng(buffer);
     if (asset != null) {
       img.adjustColor(
         asset,
@@ -140,10 +156,10 @@ class BeautifulPopup {
         alpha: 0,
       );
     }
-    final paint = await PaintingBinding.instance?.instantiateImageCodec(
+    final paint = await ui.instantiateImageCodec(
         asset != null ? Uint8List.fromList(img.encodePng(asset)) : buffer);
-    final nextFrame = await paint?.getNextFrame();
-    _illustration = nextFrame?.image;
+    final nextFrame = await paint.getNextFrame();
+    _illustration = nextFrame.image;
     return this;
   }
 
@@ -170,10 +186,8 @@ class BeautifulPopup {
     this.actions = actions;
     this.barrierDismissible = barrierDismissible;
     this.close = close ?? instance.close;
-    final child = WillPopScope(
-      onWillPop: () {
-        return Future.value(barrierDismissible);
-      },
+    final child = PopScope(
+      canPop: barrierDismissible,
       child: instance,
     );
     return showGeneralDialog<T>(
@@ -184,7 +198,7 @@ class BeautifulPopup {
       pageBuilder: (context, animation1, animation2) {
         return child;
       },
-      transitionDuration: Duration(milliseconds: 150),
+      transitionDuration: const Duration(milliseconds: 150),
       transitionBuilder: (ctx, a1, a2, child) {
         return Transform.scale(
           scale: a1.value,

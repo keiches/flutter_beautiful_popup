@@ -1,10 +1,10 @@
-# flutter_beautiful_popup [中文](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README_CN.md)
+# flutter_beautiful_popup [中文](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README_CN.md) [한글](./README_KR.md)
 
 A flutter package to help you beautify your app popup, can be used in all platform.[Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
 
 ## Preview:
 
-<img src="https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/example/images/show.gif" style="max-height: 600px;">
+<img src="./img/show.gif" style="max-height: 600px;">
 
 ## Getting Started
 
@@ -26,7 +26,7 @@ And then you can display a popup with certain template like this:
 ```
 final popup = BeautifulPopup(
   context: context,
-  template: TemplateGift,
+  template: TemplateType.gift,
 );
 popup.show(
   title: 'String or Widget',

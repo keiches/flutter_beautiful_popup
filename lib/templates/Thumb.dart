@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/thumb.png)
 class TemplateThumb extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateThumb(this.options) : super(options);
+  TemplateThumb(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/thumb.png';
+  String get illustrationPath => 'thumb.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xfffb675d);
+  Color get primaryColor => options.primaryColor ?? const Color(0xfffb675d);
   @override
   final maxWidth = 400;
   @override
@@ -37,7 +36,7 @@ class TemplateThumb extends BeautifulPopupTemplate {
           options.title,
           maxLines: 1,
           style: TextStyle(
-            fontSize: Theme.of(options.context).textTheme.headline6?.fontSize,
+            fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -64,18 +63,32 @@ class TemplateThumb extends BeautifulPopupTemplate {
           (outline || flat) ? primaryColor : Colors.white.withOpacity(0.95);
       final decoration = BoxDecoration(
         gradient: (outline || flat) ? null : gradient,
-        borderRadius: BorderRadius.all(Radius.circular(80.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(80.0)),
         border: Border.all(
           color: outline ? primaryColor : Colors.transparent,
           width: (outline && !flat) ? 1 : 0,
         ),
       );
       final minHeight = 40.0 - (outline ? 2 : 0);
-      return RaisedButton(
-        color: Colors.transparent,
-        elevation: elevation,
-        highlightElevation: 0,
-        splashColor: Colors.transparent,
+      return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.transparent,
+          elevation: WidgetStateProperty.resolveWith(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) {
+                  // highlightElevation
+                  return 0.0;
+                }
+                return elevation;
+              }),
+          // splashColor
+          overlayColor: WidgetStateColor.transparent,
+          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
+          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          )),
+        ),
+        onPressed: onPressed,
         child: Ink(
           decoration: decoration,
           child: Container(
@@ -87,16 +100,12 @@ class TemplateThumb extends BeautifulPopupTemplate {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.95),
+                // color: Colors.white.withOpacity(0.95),
+                color: labelColor,
               ).merge(labelStyle),
             ),
           ),
         ),
-        padding: EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        onPressed: onPressed,
       );
     };
   }

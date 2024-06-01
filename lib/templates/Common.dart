@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-import '../main.dart';
 import 'dart:ui' as ui;
-import 'package:auto_size_text/auto_size_text.dart';
 
-typedef Widget BeautifulPopupButton({
+import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import '../flutter_beautiful_popup.dart';
+
+typedef BeautifulPopupButton = Widget Function({
   required String label,
   required void Function() onPressed,
   TextStyle labelStyle,
@@ -14,12 +16,13 @@ typedef Widget BeautifulPopupButton({
 /// You can extend this class to custom your own template.
 abstract class BeautifulPopupTemplate extends StatefulWidget {
   final BeautifulPopup options;
-  BeautifulPopupTemplate(this.options);
+
+  BeautifulPopupTemplate(this.options, {super.key});
 
   final State<StatefulWidget> state = BeautifulPopupTemplateState();
 
   @override
-  State<StatefulWidget> createState() => state;
+  State<StatefulWidget> createState() => BeautifulPopupTemplateState();
 
   Size get size {
     double screenWidth = MediaQuery.of(options.context).size.width;
@@ -52,7 +55,7 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
   /// The path of the illustration asset.
   String get illustrationPath => '';
   String get illustrationKey =>
-      'packages/flutter_beautiful_popup/$illustrationPath';
+      'packages/flutter_beautiful_popup/img/bg/$illustrationPath';
   Color get primaryColor;
 
   double percentW(double n) {
@@ -70,12 +73,12 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
       hoverColor: Colors.transparent,
       minWidth: 45,
       height: 45,
-      child: Container(
-        padding: EdgeInsets.all(20),
-        child: Icon(Icons.close, color: Colors.white70, size: 26),
-      ),
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       onPressed: Navigator.of(options.context).pop,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: const Icon(Icons.close, color: Colors.white70, size: 26),
+      ),
     );
   }
 
@@ -115,7 +118,7 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
           options.title,
           maxLines: 1,
           style: TextStyle(
-            fontSize: Theme.of(options.context).textTheme.headline6?.fontSize,
+            fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
             color: primaryColor,
             fontWeight: FontWeight.bold,
           ),
@@ -129,7 +132,7 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
         ? AutoSizeText(
             options.content,
             minFontSize: 10,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black87,
             ),
           )
@@ -138,7 +141,7 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
 
   Widget? get actions {
     final actionsList = options.actions;
-    if (actionsList == null || actionsList.length == 0) return null;
+    if (actionsList == null || actionsList.isEmpty) return null;
     return Flex(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -149,7 +152,7 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
             (button) => Flexible(
               flex: 1,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: button,
               ),
             ),
@@ -175,18 +178,32 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
           (outline || flat) ? primaryColor : Colors.white.withOpacity(0.95);
       final decoration = BoxDecoration(
         gradient: (outline || flat) ? null : gradient,
-        borderRadius: BorderRadius.all(Radius.circular(80.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(80.0)),
         border: Border.all(
           color: outline ? primaryColor : Colors.transparent,
           width: (outline && !flat) ? 1 : 0,
         ),
       );
       final minHeight = 40.0 - (outline ? 2 : 0);
-      return RaisedButton(
-        color: Colors.transparent,
-        elevation: elevation,
-        highlightElevation: 0,
-        splashColor: Colors.transparent,
+      return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.transparent,
+          elevation: WidgetStateProperty.resolveWith(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) {
+                  // highlightElevation
+                  return 0.0;
+                }
+                return elevation;
+              }),
+          // splashColor
+          overlayColor: WidgetStateColor.transparent,
+          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
+          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          )),
+        ),
+        onPressed: onPressed,
         child: Ink(
           decoration: decoration,
           child: Container(
@@ -203,11 +220,6 @@ abstract class BeautifulPopupTemplate extends StatefulWidget {
             ),
           ),
         ),
-        padding: EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        onPressed: onPressed,
       );
     };
   }
@@ -231,23 +243,23 @@ class BeautifulPopupTemplateState extends State<BeautifulPopupTemplate> {
                   4 -
               20;
           return Stack(
-            overflow: Overflow.visible,
+            clipBehavior: Clip.none,
             children: <Widget>[
               Positioned(
+                left: 0,
+                right: 0,
+                bottom: bottom,
                 child: Container(
                   alignment: Alignment.center,
                   child: widget.options.close ?? Container(),
                 ),
-                left: 0,
-                right: 0,
-                bottom: bottom,
               )
             ],
           );
         },
       );
       final entry = closeEntry;
-      if (entry != null) Overlay.of(context)?.insert(entry);
+      if (entry != null) Overlay.of(context).insert(entry);
     });
   }
 
@@ -264,7 +276,7 @@ class BeautifulPopupTemplateState extends State<BeautifulPopupTemplate> {
             height: widget.height,
             width: widget.width,
             child: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: widget.layout,
             ),
           ),
@@ -292,7 +304,7 @@ class ImageEditor extends CustomPainter {
       image,
       Rect.fromLTRB(0, 0, image.width.toDouble(), image.height.toDouble()),
       Rect.fromLTRB(0, 0, size.width, size.height),
-      new Paint(),
+      Paint(),
     );
   }
 

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/rocket_blue.png)
 class TemplateBlueRocket extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateBlueRocket(this.options) : super(options);
+  TemplateBlueRocket(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/rocket_blue.png';
+  String get illustrationPath => 'rocket_blue.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xff4aa3f9);
+  Color get primaryColor => options.primaryColor ?? const Color(0xff4aa3f9);
   @override
   final maxWidth = 400;
   @override
@@ -37,7 +36,7 @@ class TemplateBlueRocket extends BeautifulPopupTemplate {
           options.title,
           maxLines: 1,
           style: TextStyle(
-            fontSize: Theme.of(options.context).textTheme.headline6?.fontSize,
+            fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),

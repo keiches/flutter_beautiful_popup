@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/fail.png)
 class TemplateFail extends TemplateSuccess {
-  final BeautifulPopup options;
-  TemplateFail(this.options) : super(options);
+  TemplateFail(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/fail.png';
+  String get illustrationPath => 'fail.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xffF77273);
+  Color get primaryColor => options.primaryColor ?? const Color(0xffF77273);
 }

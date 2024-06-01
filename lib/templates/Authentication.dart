@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'Common.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/authentication.png)
 class TemplateAuthentication extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateAuthentication(this.options) : super(options);
+  TemplateAuthentication(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/authentication.png';
+  String get illustrationPath => 'authentication.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xff15c0ec);
+  Color get primaryColor => options.primaryColor ?? const Color(0xff15c0ec);
   @override
   final maxWidth = 400;
   @override

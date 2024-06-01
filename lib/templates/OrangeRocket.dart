@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/rocket_orange.png)
 class TemplateOrangeRocket extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateOrangeRocket(this.options) : super(options);
+  TemplateOrangeRocket(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/rocket_orange.png';
+  String get illustrationPath => 'rocket_orange.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xffdf3428);
+  Color get primaryColor => options.primaryColor ?? const Color(0xffdf3428);
   @override
   final maxWidth = 400;
   @override
   final maxHeight = 600;
   @override
   final bodyMargin = 30;
+  @override
   Widget get title {
     if (options.title is Widget) {
       return SizedBox(
@@ -35,7 +35,7 @@ class TemplateOrangeRocket extends BeautifulPopupTemplate {
           options.title,
           maxLines: 1,
           style: TextStyle(
-            fontSize: Theme.of(options.context).textTheme.headline6?.fontSize,
+            fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
             color: primaryColor,
             fontWeight: FontWeight.bold,
           ),

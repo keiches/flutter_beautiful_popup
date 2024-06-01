@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/success.png)
 class TemplateSuccess extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateSuccess(this.options) : super(options);
+  TemplateSuccess(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/success.png';
+  final illustrationPath = 'success.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xff4ABDFE);
+  Color get primaryColor => options.primaryColor ?? const Color(0xff4ABDFE);
   @override
   final maxWidth = 400;
   @override

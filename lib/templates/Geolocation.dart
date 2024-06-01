@@ -1,10 +1,9 @@
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/geolocation.png)
 class TemplateGeolocation extends TemplateCamera {
-  final BeautifulPopup options;
-  TemplateGeolocation(this.options) : super(options);
+  TemplateGeolocation(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/geolocation.png';
+  String get illustrationPath => 'geolocation.png';
 }

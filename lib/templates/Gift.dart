@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common.dart';
-import '../main.dart';
+import '../flutter_beautiful_popup.dart';
 
 /// ![](https://raw.githubusercontent.com/jaweii/Flutter_beautiful_popup/master/img/bg/gift.png)
 class TemplateGift extends BeautifulPopupTemplate {
-  final BeautifulPopup options;
-  TemplateGift(this.options) : super(options);
+  TemplateGift(super.options, {super.key});
 
   @override
-  final illustrationPath = 'img/bg/gift.png';
+  String get illustrationPath => 'gift.png';
   @override
-  Color get primaryColor => options.primaryColor ?? Color(0xffFF2F49);
+  Color get primaryColor => options.primaryColor ?? const Color(0xffFF2F49);
   @override
   final maxWidth = 400;
   @override
@@ -36,18 +35,32 @@ class TemplateGift extends BeautifulPopupTemplate {
           (outline || flat) ? primaryColor : Colors.white.withOpacity(0.95);
       final decoration = BoxDecoration(
         gradient: (outline || flat) ? null : gradient,
-        borderRadius: BorderRadius.all(Radius.circular(80.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(80.0)),
         border: Border.all(
           color: outline ? primaryColor : Colors.transparent,
           width: (outline && !flat) ? 1 : 0,
         ),
       );
       final minHeight = 40.0 - (outline ? 4 : 0);
-      return RaisedButton(
-        color: Colors.transparent,
-        elevation: elevation,
-        highlightElevation: 0,
-        splashColor: Colors.transparent,
+      return ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateColor.transparent,
+          elevation: WidgetStateProperty.resolveWith(
+                  (Set<WidgetState> states) {
+                if (states.contains(WidgetState.pressed)) {
+                  // highlightElevation
+                  return 0.0;
+                }
+                return elevation;
+              }),
+          // splashColor
+          overlayColor: WidgetStateColor.transparent,
+          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
+          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          )),
+        ),
+        onPressed: onPressed,
         child: Ink(
           decoration: decoration,
           child: Container(
@@ -59,17 +72,13 @@ class TemplateGift extends BeautifulPopupTemplate {
             child: Text(
               label,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.95),
+                // color: Colors.white.withOpacity(0.95),
+                color: labelColor,
                 fontWeight: FontWeight.bold,
               ).merge(labelStyle),
             ),
           ),
         ),
-        padding: EdgeInsets.all(0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        onPressed: onPressed,
       );
     };
   }
