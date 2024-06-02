@@ -66,9 +66,9 @@ class BeautifulPopup {
   final TemplateType? _template;
   TemplateType? get template => _template;
 
-  BeautifulPopupTemplate Function(BeautifulPopup options)? _build;
+  BeautifulPopupTemplate Function(BeautifulPopup options)? _templateBuilder;
   BeautifulPopupTemplate get instance {
-    final build = _build;
+    final build = _templateBuilder;
     if (build != null) return build(this);
     switch (_template) {
       case TemplateType.orangeRocket:
@@ -85,15 +85,15 @@ class BeautifulPopup {
         return TemplateThumb(this);
       case TemplateType.gift:
         return TemplateGift(this);
-    case TemplateType.camera:
+      case TemplateType.camera:
         return TemplateCamera(this);
-    case TemplateType.success:
+      case TemplateType.success:
         return TemplateSuccess(this);
       case TemplateType.authentication:
         return TemplateAuthentication(this);
       case TemplateType.term:
         return TemplateTerm(this);
-    case TemplateType.notification:
+      case TemplateType.notification:
         return TemplateNotification(this);
       case TemplateType.geolocation:
         return TemplateGeolocation(this);
@@ -119,17 +119,18 @@ class BeautifulPopup {
   BeautifulPopup({
     required BuildContext context,
     required TemplateType template,
-  }) : _context = context,
+  })  : _context = context,
         _template = template {
     primaryColor = instance.primaryColor; // Get the default primary color.
   }
 
-  BeautifulPopup.withBuilder({
+  BeautifulPopup.builder({
     required BuildContext context,
-    required BeautifulPopupTemplate Function(BeautifulPopup options) build,
-  }) : _context = context,
+    required BeautifulPopupTemplate Function(BeautifulPopup options)
+        templateBuilder,
+  })  : _context = context,
         _template = null,
-        _build = build {
+        _templateBuilder = templateBuilder {
     primaryColor = instance.primaryColor; // Get the default primary color.
   }
 

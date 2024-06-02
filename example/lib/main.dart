@@ -96,9 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
   BeautifulPopup? activeDemo;
 
   Widget get showcases {
-    final popup = BeautifulPopup.withBuilder(
+    final popup = BeautifulPopup.builder(
       context: context,
-      build: (options) => MyTemplate(options),
+      templateBuilder: (options) => MyTemplate(options),
     );
     return Flex(
       mainAxisSize: MainAxisSize.max,
