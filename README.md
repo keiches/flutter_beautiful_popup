@@ -19,7 +19,7 @@ dependencies:
 Import the dependency:
 
 ```
-import 'package:flutter_beautiful_popup/main.dart';
+import 'package:flutter_beautiful_popup/flutter_beautiful_popup.dart';
 ```
 
 And then you can display a popup with certain template like this:
@@ -58,7 +58,7 @@ You can extend `BeautifulPopupTemplate` to customize your own template like this
 
 ```
 import 'package:flutter/material.dart';
-import 'package:flutter_beautiful_popup/main.dart';
+import 'package:flutter_beautiful_popup/flutter_beautiful_popup.dart';
 
 class MyTemplate extends BeautifulPopupTemplate {
   final BeautifulPopup options;
