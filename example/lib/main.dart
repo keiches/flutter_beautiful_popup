@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter_beautiful_popup',
+      title: 'flutter_beautiful_popup',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -300,7 +300,7 @@ popup.show(
             ),
             onPressed: () async {
               await _launchURL(
-                'https://github.com/jaweii/Flutter_beautiful_popup',
+                'https://github.com/keiches/flutter_beautiful_popup',
               );
             },
           ),

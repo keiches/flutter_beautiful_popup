@@ -1,6 +1,6 @@
 # example
 
-A new Flutter project.
+A new Flutter beautiful popup project.
 
 ## Getting Started
 
