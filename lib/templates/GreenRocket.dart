@@ -8,7 +8,7 @@ class TemplateGreenRocket extends BeautifulPopupTemplate {
   TemplateGreenRocket(super.options, {super.key});
 
   @override
-  String get illustrationPath => 'img/bg/rocket_green.png';
+  String get illustrationPath => 'rocket_green.png';
   @override
   Color get primaryColor => options.primaryColor ?? const Color(0xff49ceae);
   @override

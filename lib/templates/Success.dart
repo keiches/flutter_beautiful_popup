@@ -8,7 +8,7 @@ class TemplateSuccess extends BeautifulPopupTemplate {
   TemplateSuccess(super.options, {super.key});
 
   @override
-  final illustrationPath = 'success.png';
+  String get illustrationPath => 'success.png';
   @override
   Color get primaryColor => options.primaryColor ?? const Color(0xff4ABDFE);
   @override
