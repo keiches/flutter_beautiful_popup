@@ -1,10 +1,11 @@
-# flutter_beautiful_popup [中文](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README_CN.md) [한글](./README_KR.md)
+# flutter_beautiful_popup [한글](./README_KR.md) [中文](./README_CN.md)
 
+This package is forked from "[flutter_beautiful_popup](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README.md)".
 A flutter package to help you beautify your app popup, can be used in all platform.[Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
 
 ## Preview:
 
-<img src="./img/show.gif" style="max-height: 600px;">
+<img src="./img/show.gif" style="max-height: 600px;" alt="Preview" />
 
 ## Getting Started
 
@@ -64,7 +65,7 @@ class MyTemplate extends BeautifulPopupTemplate {
   MyTemplate(this.options) : super(options);
 
   @override
-  final illustrationKey = 'images/mytemplate.png';
+  String illustrationKey = 'images/mytemplate.png';
   @override
   Color get primaryColor => options.primaryColor ?? Color(0xff000000); // The default primary color of the template is Colors.black.
   @override
@@ -106,9 +107,9 @@ class MyTemplate extends BeautifulPopupTemplate {
 To display a popup with your own template:
 
 ```
-final popup = BeautifulPopup.customize(
+final popup = BeautifulPopup.builder(
   context: context,
-  build: (options) => MyTemplate(options),
+  templateBuilder: (options) => MyTemplate(options),
 );
 popup.show(
   title: 'Example',
