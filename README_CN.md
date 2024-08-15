@@ -120,7 +120,7 @@ popup.show(
       label: 'Code',
       onPressed: () {
         js.context.callMethod('open', [
-          'https://github.com/jaweii/Flutter_beautiful_popup/blob/master/example/lib/MyTemplate.dart'
+          'https://github.com/keiches/flutter_beautiful_popup/blob/master/example/lib/my_template.dart'
         ]);
       },
     ),

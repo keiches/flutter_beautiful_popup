@@ -1,4 +1,4 @@
-# flutter_beautiful_popup [中文](https://github.com/jaweii/Flutter_beautiful_popup/blob/master/README_CN.md)
+# flutter_beautiful_popup [영문](./README.md)
 
 A flutter package to help you beautify your app popup, can be used in all platform.[Live Demo](https://jaweii.github.io/Flutter_beautiful_popup/example/build/web/#/).
 
@@ -122,7 +122,7 @@ popup.show(
       label: 'Code',
       onPressed: () {
         js.context.callMethod('open', [
-          'https://github.com/jaweii/Flutter_beautiful_popup/blob/master/example/lib/MyTemplate.dart'
+          'https://github.com/keiches/flutter_beautiful_popup/blob/master/example/lib/my_template.dart'
         ]);
       },
     ),

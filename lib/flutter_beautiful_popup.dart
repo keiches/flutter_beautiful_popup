@@ -1,7 +1,5 @@
 library beautiful_popup;
 
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:image/image.dart' as img;

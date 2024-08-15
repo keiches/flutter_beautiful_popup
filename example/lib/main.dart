@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         labelStyle: const TextStyle(),
                         onPressed: () async {
                           await _launchURL(
-                            'https://github.com/jaweii/Flutter_beautiful_popup/blob/master/example/lib/MyTemplate.dart',
+                            'https://github.com/keiches/flutter_beautiful_popup/blob/master/example/lib/my_template.dart',
                           );
                         },
                       ),
