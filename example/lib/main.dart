@@ -376,7 +376,8 @@ popup.show(
           label: 'Show more',
           outline: true,
           onPressed: () {
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
+            demo.hide();
             if (title is Widget) {
               openDemo(demo: demo);
               return;
@@ -450,7 +451,8 @@ popup.show(
                                 demo.button(
                                   label: 'One button',
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
+                                    demo.hide();
                                   },
                                 ),
                               ],
@@ -472,9 +474,11 @@ popup.show(
                               barrierDismissible: true,
                               actions: [
                                 demo.button(
-                                  label: 'Close',
+                                  label: 'Hide',
+                                  labelStyle: const TextStyle(),
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    // Navigator.of(context).pop();
+                                    demo.hide();
                                   },
                                 ),
                               ],
@@ -495,10 +499,10 @@ popup.show(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 direction: Axis.vertical,
                                 children: <Widget>[
-                                  const Text('1. blabla... \n2. blabla...'),
+                                  const Text('1. bla bla... \n2. bla bla...'),
                                   const Spacer(),
                                   demo.button(
-                                    label: 'Accpet',
+                                    label: 'Accept',
                                     onPressed: () {},
                                   ),
                                   Container(
@@ -529,7 +533,10 @@ popup.show(
                                           return null; // Defer to the widget's default.
                                         }),
                                       ),
-                                      onPressed: Navigator.of(context).pop,
+                                      onPressed: () {
+                                        // Navigator.of(context).pop();
+                                        demo.hide();
+                                      },
                                       child: const Text('Close'),
                                     ),
                                   ),

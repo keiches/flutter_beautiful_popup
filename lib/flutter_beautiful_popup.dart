@@ -162,11 +162,13 @@ class BeautifulPopup {
     return this;
   }
 
+  /// A method that shows the dialog.
+  ///
   /// `title`: Must be a `String` or `Widget`. Defaults to `''`.
   ///
   /// `content`: Must be a `String` or `Widget`. Defaults to `''`.
   ///
-  /// `actions`: The set of actions that are displaed at bottom of the dialog,
+  /// `actions`: The set of actions that are displayed at bottom of the dialog,
   ///
   ///  Typically this is a list of [BeautifulPopup.button]. Defaults to `[]`.
   ///
@@ -208,6 +210,11 @@ class BeautifulPopup {
         );
       },
     );
+  }
+
+  /// Hides the dialog.
+  void hide<T>({T? result}) {
+    Navigator.of(_context).pop<T>(result);
   }
 
   BeautifulPopupButton get button => instance.button;
