@@ -1,9 +1,10 @@
 library beautiful_popup;
 
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
-import 'package:image/image.dart' as img;
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:image/image.dart' as img;
+
 import 'templates/Common.dart';
 import 'templates/OrangeRocket.dart';
 import 'templates/GreenRocket.dart';
@@ -110,7 +111,7 @@ class BeautifulPopup {
   dynamic content = '';
   List<Widget>? actions;
   Widget? close;
-  bool? barrierDismissible;
+  // bool? barrierDismissible;
 
   Color? primaryColor;
 
@@ -180,31 +181,35 @@ class BeautifulPopup {
     dynamic content,
     List<Widget>? actions,
     bool barrierDismissible = false,
+    String? barrierLabel,
     Widget? close,
   }) {
     this.title = title;
     this.content = content;
     this.actions = actions;
-    this.barrierDismissible = barrierDismissible;
+    // this.barrierDismissible = barrierDismissible;
     this.close = close ?? instance.close;
     final child = PopScope(
       canPop: barrierDismissible,
       child: instance,
     );
     return showGeneralDialog<T>(
-      barrierColor: Colors.black38,
+      // barrierColor: Colors.black38,
+      barrierColor: Color(0x61000000),
       barrierDismissible: barrierDismissible,
-      barrierLabel: barrierDismissible ? 'beautiful_popup' : null,
+      barrierLabel: barrierLabel,
       context: context,
-      pageBuilder: (context, animation1, animation2) {
+      pageBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
         return child;
       },
       transitionDuration: const Duration(milliseconds: 150),
-      transitionBuilder: (ctx, a1, a2, child) {
+      transitionBuilder: (BuildContext context, Animation<double> animation,
+          Animation<double> secondaryAnimation, Widget child) {
         return Transform.scale(
-          scale: a1.value,
+          scale: animation.value,
           child: Opacity(
-            opacity: a1.value,
+            opacity: animation.value,
             child: child,
           ),
         );
