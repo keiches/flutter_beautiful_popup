@@ -38,7 +38,8 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
             options.title,
             maxLines: 1,
             style: TextStyle(
-              fontSize: Theme.of(options.context).textTheme.titleLarge?.fontSize,
+              fontSize:
+                  Theme.of(options.context).textTheme.titleLarge?.fontSize,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -66,7 +67,7 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
   BeautifulPopupButton get button {
     return ({
       required String label,
-      required void Function() onPressed,
+      required VoidCallback onPressed,
       bool outline = false,
       bool flat = false,
       TextStyle labelStyle = const TextStyle(),
@@ -90,18 +91,19 @@ class TemplateRedPacket extends BeautifulPopupTemplate {
       return ElevatedButton(
         style: ButtonStyle(
           backgroundColor: WidgetStateColor.transparent,
-          elevation: WidgetStateProperty.resolveWith(
-                  (Set<WidgetState> states) {
-                if (states.contains(WidgetState.pressed)) {
-                  // highlightElevation
-                  return 0.0;
-                }
-                return elevation;
-              }),
+          elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+            if (states.contains(WidgetState.pressed)) {
+              // highlightElevation
+              return 0.0;
+            }
+            return elevation;
+          }),
           // splashColor
           overlayColor: WidgetStateColor.transparent,
-          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(const EdgeInsets.all(0)),
-          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(RoundedRectangleBorder(
+          padding: ButtonStyleButton.allOrNull<EdgeInsetsGeometry>(
+              const EdgeInsets.all(0)),
+          shape: ButtonStyleButton.allOrNull<OutlinedBorder>(
+              RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           )),
         ),

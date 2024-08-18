@@ -1,6 +1,7 @@
 library beautiful_popup;
 
 import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
@@ -57,6 +58,21 @@ enum TemplateType {
   term,
   redPacket,
 }
+
+/*class PopupButton {
+  final String label;
+  final VoidCallback onPressed;
+  bool outline;
+  bool flat;
+  TextStyle labelStyle;
+
+  PopupButton(
+      {required this.label,
+      required this.onPressed,
+      this.outline = false,
+      this.flat = false,
+      this.labelStyle = const TextStyle()});
+}*/
 
 class BeautifulPopup {
   final BuildContext _context;
@@ -180,6 +196,8 @@ class BeautifulPopup {
     dynamic title,
     dynamic content,
     List<Widget>? actions,
+    Duration transitionDuration = const Duration(milliseconds: 150),
+    Color barrierColor = const Color(0x61000000),
     bool barrierDismissible = false,
     String? barrierLabel,
     Widget? close,
@@ -195,7 +213,7 @@ class BeautifulPopup {
     );
     return showGeneralDialog<T>(
       // barrierColor: Colors.black38,
-      barrierColor: Color(0x61000000),
+      barrierColor: barrierColor, // Color(0x61000000),
       barrierDismissible: barrierDismissible,
       barrierLabel: barrierLabel,
       context: context,
@@ -203,7 +221,7 @@ class BeautifulPopup {
           Animation<double> secondaryAnimation) {
         return child;
       },
-      transitionDuration: const Duration(milliseconds: 150),
+      transitionDuration: transitionDuration,
       transitionBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation, Widget child) {
         return Transform.scale(
@@ -218,9 +236,65 @@ class BeautifulPopup {
   }
 
   /// Hides the dialog.
-  void hide<T>({T? result}) {
+  ///
+  /// {@tool snippet}
+  ///
+  /// Typical usage for closing a route is as follows:
+  ///
+  /// ```dart
+  /// void _handleClose() {
+  ///   popup.hide();
+  /// }
+  /// ```
+  /// {@end-tool}
+  /// {@tool snippet}
+  ///
+  /// A dialog box might be closed with a result:
+  ///
+  /// ```dart
+  /// void _handleAccept() {
+  ///   popup.hide(true); // dialog returns true
+  /// }
+  /// ```
+  /// {@end-tool}
+  void hide<T>([T? result]) {
     Navigator.of(_context).pop<T>(result);
   }
 
-  BeautifulPopupButton get button => instance.button;
+  /// Creates a button widget for dialog actions.
+  ///
+  /// [label] is the text to display on the button.
+  /// [onPressed] is the callback function to call when the button is pressed.
+  /// [outline] determines whether the button should be an outline button. Defaults to `false`.
+  /// [flat] determines whether the button should be a flat button. Defaults to `false`.
+  /// [labelStyle] is the style of the button label. Defaults to a default text style.
+  ///
+  /// Returns a [Widget] that represents the button.
+  BeautifulPopupButton get buttonBuilder => instance.button;
+
+  /*Widget buttonBuilder({
+    required String label,
+    required VoidCallback onPressed,
+    bool outline = false,
+    bool flat = false,
+    TextStyle labelStyle = const TextStyle(),
+  }) =>
+      instance.button(
+          label: label,
+          onPressed: onPressed,
+          outline: outline,
+          flat: flat,
+          labelStyle: labelStyle);*/
+
+  /*List<Widget> actionsBuilder(List<PopupButton> objects) {
+    final buttonBuilder = instance.button;
+    return objects.map((object) {
+      return buttonBuilder(
+          label: object.label,
+          onPressed: object.onPressed,
+          outline: object.outline,
+          flat: object.flat,
+          labelStyle: object.labelStyle);
+    }).toList();
+  }*/
 }
