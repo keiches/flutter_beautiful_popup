@@ -49,11 +49,9 @@ void main() {
       title: 'Popup Title',
       content: 'Popup Content',
       actions: [
-        popup.button(
+        popup.buttonBuilder(
           label: 'Close',
-          onPressed: Navigator
-              .of(context)
-              .pop,
+          onPressed: Navigator.of(context).pop,
         ),
       ],
       // bool barrierDismissible = false,

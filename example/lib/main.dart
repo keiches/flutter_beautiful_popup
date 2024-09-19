@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           'This popup shows you how to customize your own BeautifulPopupTemplate.'),
                     ),
                     actions: [
-                      popup.button(
+                      popup.buttonBuilder(
                         label: 'Code',
                         labelStyle: const TextStyle(),
                         onPressed: () async {
@@ -353,7 +353,7 @@ popup.show(
       title: title,
       content: content,
       actions: <Widget>[
-        demo.button(
+        demo.buttonBuilder(
           label: 'Recolor',
           onPressed: () {
             changeColor(demo, (color) async {
@@ -372,7 +372,7 @@ popup.show(
             });
           },
         ),
-        demo.button(
+        demo.buttonBuilder(
           label: 'Show more',
           outline: true,
           onPressed: () {
@@ -448,7 +448,7 @@ popup.show(
                               title: getTitle(),
                               content: getContent(),
                               actions: [
-                                demo.button(
+                                demo.buttonBuilder(
                                   label: 'One button',
                                   onPressed: () {
                                     // Navigator.of(context).pop();
@@ -473,7 +473,7 @@ popup.show(
                               close: Container(),
                               barrierDismissible: true,
                               actions: [
-                                demo.button(
+                                demo.buttonBuilder(
                                   label: 'Hide',
                                   labelStyle: const TextStyle(),
                                   onPressed: () {
@@ -501,7 +501,7 @@ popup.show(
                                 children: <Widget>[
                                   const Text('1. bla bla... \n2. bla bla...'),
                                   const Spacer(),
-                                  demo.button(
+                                  demo.buttonBuilder(
                                     label: 'Accept',
                                     onPressed: () {},
                                   ),
