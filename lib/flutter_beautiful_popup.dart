@@ -298,3 +298,197 @@ class BeautifulPopup {
     }).toList();
   }*/
 }
+
+typedef FrameCallback = void Function(Duration duration);
+
+class DialogAction {
+  final String label;
+  final VoidCallback onPressed;
+  bool outline;
+  bool flat;
+  TextStyle labelStyle;
+
+  DialogAction({
+    required this.label,
+    required this.onPressed,
+    this.outline = false,
+    this.flat = false,
+    this.labelStyle = const TextStyle(),
+  });
+}
+
+/// Displays a dialog above the current contents of the app.
+///
+/// This function allows for customization of aspects of the dialog popup.
+///
+/// This function takes a `contentBuilder` which is used to build the primary
+/// content of the route (typically a dialog widget). Content below the dialog
+/// is dimmed with a [ModalBarrier]. The widget returned by the `pageBuilder`
+/// does not share a context with the location that [showGeneralDialog] is
+/// originally called from. Use a [StatefulBuilder] or a custom
+/// [StatefulWidget] if the dialog needs to update dynamically.
+///
+/// The `context` argument is used to look up the [Navigator] for the
+/// dialog. It is only used when the method is called. Its corresponding widget
+/// can be safely removed from the tree before the dialog is closed.
+///
+/// The `useRootNavigator` argument is used to determine whether to push the
+/// dialog to the [Navigator] furthest from or nearest to the given `context`.
+/// By default, `useRootNavigator` is `true` and the dialog route created by
+/// this method is pushed to the root navigator.
+///
+/// If the application has multiple [Navigator] objects, it may be necessary to
+/// call `Navigator.of(context, rootNavigator: true).pop(result)` to close the
+/// dialog rather than just `Navigator.pop(context, result)`.
+///
+/// The `barrierDismissible` argument is used to determine whether this route
+/// can be dismissed by tapping the modal barrier. This argument defaults
+/// to false. If `barrierDismissible` is true, a non-null `barrierLabel` must be
+/// provided.
+///
+/// The `barrierLabel` argument is the semantic label used for a dismissible
+/// barrier. This argument defaults to `null`.
+///
+/// The `barrierColor` argument is the color used for the modal barrier. This
+/// argument defaults to `Color(0x80000000)`.
+///
+/// The `transitionDuration` argument is used to determine how long it takes
+/// for the route to arrive on or leave off the screen. This argument defaults
+/// to 200 milliseconds.
+///
+/// The `transitionBuilder` argument is used to define how the route arrives on
+/// and leaves off the screen. By default, the transition is a linear fade of
+/// the page's contents.
+///
+/// The `routeSettings` will be used in the construction of the dialog's route.
+/// See [RouteSettings] for more details.
+///
+/// {@macro flutter.widgets.RawDialogRoute}
+///
+/// Returns a [Future] that resolves to the value (if any) that was passed to
+/// [Navigator.pop] when the dialog was closed.
+///
+/// ### State Restoration in Dialogs
+///
+/// Using this method will not enable state restoration for the dialog. In order
+/// to enable state restoration for a dialog, use [Navigator.restorablePush]
+/// or [Navigator.restorablePushNamed] with [RawDialogRoute].
+///
+/// For more information about state restoration, see [RestorationManager].
+///
+/// {@tool sample}
+/// This sample demonstrates how to create a restorable dialog. This is
+/// accomplished by enabling state restoration by specifying
+/// [WidgetsApp.restorationScopeId] and using [Navigator.restorablePush] to
+/// push [RawDialogRoute] when the button is tapped.
+///
+/// {@macro flutter.widgets.RestorationManager}
+///
+/// ** See code in examples/api/lib/widgets/routes/show_general_dialog.0.dart **
+/// {@end-tool}
+///
+/// See also:
+///
+///  * [DisplayFeatureSubScreen], which documents the specifics of how
+///    [DisplayFeature]s can split the screen into sub-screens.
+///  * [showGeneralDialog], which allows for customization of the dialog popup.
+Future<T?> showCustomDialog<T extends Object?>({
+  required BuildContext context,
+  required String title,
+  required dynamic content,
+  WidgetBuilder? contentBuilder,
+  required List<DialogAction> actions,
+  TemplateType template = TemplateType.orangeRocket,
+  bool barrierDismissible = false,
+  String? barrierLabel,
+  Color barrierColor = const Color(0x80000000),
+  Duration transitionDuration = const Duration(milliseconds: 200),
+  // RouteTransitionsBuilder? transitionBuilder,
+  // bool useRootNavigator = true,
+  // RouteSettings? routeSettings,
+  // Offset? anchorPoint,
+}) {
+  assert(_debugIsActive(context));
+
+  Widget dialogTitle = Text(title);
+  Widget dialogContent;
+
+  if (content == null && contentBuilder != null) {
+    // content가 없고 contentBuilder가 제공된 경우
+    dialogContent = contentBuilder(context);
+  } else if (content is String) {
+    // content가 문자열인 경우
+    dialogContent = Text(content);
+  } else if (content is Widget) {
+    // content가 Widget인 경우
+    dialogContent = content;
+  } else {
+    // content가 없고 contentBuilder도 없는 경우
+    dialogContent = Container(); // 빈 컨테이너
+  }
+
+  // final ThemeData theme = Theme.of(context);
+  // theme.platform === TargetPlatform.android
+  final popup = BeautifulPopup(
+    context: context,
+    template: template,
+  );
+  return popup.show(
+    title: dialogTitle,
+    content: dialogContent,
+    actions: actions.length == 1
+        ? <Widget>[
+            popup.buttonBuilder(
+              label: actions[0].label,
+              onPressed: () {
+                actions[0].onPressed();
+                popup.hide();
+              },
+              outline: actions[1].outline,
+              flat: actions[1].flat,
+              labelStyle: actions[1].labelStyle,
+            ),
+          ]
+        : <Widget>[
+            popup.buttonBuilder(
+              label: actions[0].label,
+              onPressed: () {
+                actions[0].onPressed();
+                popup.hide();
+              },
+              outline: actions[1].outline,
+              flat: actions[1].flat,
+              labelStyle: actions[1].labelStyle,
+            ),
+            popup.buttonBuilder(
+              label: actions[1].label,
+              onPressed: () {
+                actions[1].onPressed();
+                popup.hide();
+              },
+              outline: actions[1].outline,
+              flat: actions[1].flat,
+              labelStyle: actions[1].labelStyle,
+            )
+          ],
+    barrierColor: barrierColor,
+    barrierDismissible: barrierDismissible,
+    transitionDuration: transitionDuration,
+  );
+}
+
+bool _debugIsActive(BuildContext context) {
+  if (context is Element && !context.debugIsActive) {
+    throw FlutterError.fromParts(<DiagnosticsNode>[
+      ErrorSummary('This BuildContext is no longer valid.'),
+      ErrorDescription(
+          'The showDialog function context parameter is a BuildContext that is no longer valid.'),
+      ErrorHint(
+        'This can commonly occur when the showDialog function is called after awaiting a Future. '
+        'In this situation the BuildContext might refer to a widget that has already been disposed during the await. '
+        'Consider using a parent context instead.',
+      ),
+    ]);
+  }
+  return true;
+}
